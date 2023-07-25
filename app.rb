@@ -7,7 +7,7 @@ use(BetterErrors::Middleware)
 BetterErrors.application_root = __dir__
 BetterErrors::Middleware.allow_ip!("0.0.0.0/0.0.0.0")
 
-CHOICES = [:rock, :paper, :scissors]
+CHOICES = ['rock', 'paper', 'scissors']
 
 def game_results(user, computer)
   if user == computer
@@ -22,8 +22,8 @@ def game_results(user, computer)
   end
 end
 
-def play_game(choice)
-  user_choice = choice.to_sym
+def play_game
+  user_choice = params.fetch("choice")
   computer_choice = CHOICES.sample
   result = game_results(user_choice, computer_choice)
   [user_choice, computer_choice, result]
@@ -33,17 +33,7 @@ get("/") do
   erb :rules, layout: :layout
 end
 
-get("/rock") do
-  @user_choice, @computer_choice, @result = play_game('rock')
-  erb :rock
-end
-
-get("/paper") do
-  @user_choice, @computer_choice, @result = play_game('paper')
-  erb :paper
-end
-
-get("/scissors") do
-  @user_choice, @computer_choice, @result = play_game('scissors')
-  erb :scissors
+get("/:choice") do
+  @user_choice, @computer_choice, @result = play_game
+  erb :results
 end
