@@ -25,7 +25,7 @@ end
 def play_game(choice)
   user_choice = choice.to_sym
   computer_choice = CHOICES.sample
-  result = winner(user_choice, computer_choice)
+  result = game_results(user_choice, computer_choice)
   [user_choice, computer_choice, result]
 end
 
